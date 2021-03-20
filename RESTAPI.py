@@ -84,17 +84,17 @@ def home():
             #            print("Tabla", var_c, "creada exitosamente")
         
     # Pedimos datos de la base de datos MySQL para mostrarlas en index.html
-    # Solicitar nombres
+    # Solicitar nombres y version
     cur = mysql.connection.cursor()
     cur.execute('SELECT Nombre FROM Switches')
-    nombres_mysql = cur.fetchall()
-    #print(nombres_mysql)
+    nombre_mysql = cur.fetchall()
+    #print(nombre_mysql)
 
-    #Solicitar version
     cur.execute('SELECT Caracteristicas FROM Switches')
-    version_mysql = cur.fetchall()
+    info_mysql = cur.fetchall()
+    #print(info_mysql)
     
-    return render_template('index.html', nombre = nombres_mysql, version = version_mysql) , 200
+    return render_template('index.html') , 200
 
 @app.route('/home/add', methods=['POST'])
 def addflows():
