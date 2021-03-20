@@ -1,0 +1,4 @@
+Linux MySQL
+Contraseña para el SO: diego
+Para root en MySQL: mysqldiego
+Para usuario remoto (diego): MySQL2021-

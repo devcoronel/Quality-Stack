@@ -1,0 +1,27 @@
+Entramos a la carpeta del proyecto y damos
+click derecho y abrir una Terminal
+
+Luego ejecutamos
+python -m venv venv
+
+Se creará una carpeta 'venv'
+
+Luego ejecutar 
+.\venv\Scripts\activate (en windows)
+. ./venv/bin/activate (en Linux)
+
+Instalar flask
+pip install flask
+
+
+Una vez instalados todos los módulos a usar
+ejecutar el siguiente comando para listar
+todas las dependencias que tiene nuestro programa
+pip freeze
+
+Copiar las dependencias en un archivo de texto
+llamado requirements.txt
+
+Para instalar estas dependencias cuando estemos
+en otra computadora, ejecutamos
+pip install -r requirements.txt
