@@ -16,8 +16,6 @@ mysql = MySQL(app)
 # Key para permitir insertar texto en index.html
 app.secret_key = 'mysecretkey'
 
-# Comrpobar que las tablas para cada switch existen en MySQL
-
 @app.route('/home', methods=['GET'])
 def home():
     response = requests.get(url_switches_variable)
@@ -84,9 +82,19 @@ def home():
             #            cursor.execute('CREATE TABLE %s(Caracteristicas JSON NOT NULL, Flujos JSON NOT NULL);', [var_c])
             #            mysql.connection.commit()
             #            print("Tabla", var_c, "creada exitosamente")
+        
+    # Pedimos datos de la base de datos MySQL para mostrarlas en index.html
+    # Solicitar nombres
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT Nombre FROM Switches')
+    nombres_mysql = cur.fetchall()
+    #print(nombres_mysql)
 
+    #Solicitar version
+    cur.execute('SELECT Caracteristicas FROM Switches')
+    version_mysql = cur.fetchall()
     
-    return jsonify({'message': 'Pagina de inicio'}), 200
+    return render_template('index.html', nombre = nombres_mysql, version = version_mysql) , 200
 
 @app.route('/home/add', methods=['POST'])
 def addflows():
