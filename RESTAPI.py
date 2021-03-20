@@ -18,6 +18,15 @@ app.secret_key = 'mysecretkey'
 
 @app.route('/home', methods=['GET'])
 def home():
+    #Orden de los switches
+    orden_switch = []
+    # Nombres de los switches
+    nombre_switch = []
+    # Tipo de switch
+    tipo_switch = []
+    # Versión del switches
+    version_switch = []
+
     response = requests.get(url_switches_variable)
 
     if response.status_code == 200:
@@ -26,6 +35,8 @@ def home():
         
         #Averiguar si en la tabla ya existe registro de los switches
         for i in data:
+            # Crear el orden del análisis de los switches
+            orden_switch.append(i)
 
             #Obtener las características del switch de turno
             str_i = str(i)
@@ -36,65 +47,31 @@ def home():
             url_flujos = url_flujos_variable +str_i
             flujos = requests.get(url_flujos)
 
-            #Formar nombre del switch
+            #Formar nombre del switch y almacenarlo
             var_b = "sw_"+str_i
+            nombre_switch.append(var_b)
             
-            #Seleccionar (a modo de pregunta) el nombre del switch en MySQL
-            cursor = mysql.connection.cursor()
-            cursor.execute('SELECT Nombre FROM Switches;')
-            result = cursor.fetchall()
-
-            #Encontrar coindidencias con los nombres guardados
-            det_a = False
-            
-            for j in result:
-                if j[0] == var_b:
-                    det_a = True
-            
-            if det_a == False and caracteristicas.status_code == 200 and flujos.status_code == 200:
-                #Obtener el contenido de las caracteristicas y transformar a JSON
+            if caracteristicas.status_code == 200 and flujos.status_code == 200:
+                #Obtener el tipo y version de switch y almacenarlo
                 var_c = caracteristicas.content
-                var_d = []
-                var_d.append(var_c)
+                var_d = json.loads(var_c)
+                var_e = var_d[str_i]
+                var_f = var_e["hw_desc"]
+                tipo_switch.append(var_f)
+                var_g = var_e["sw_desc"]
+                version_switch.append(var_g)
 
-                #Obtener el contenido de los flujos y transformar a JSON
-                var_e = flujos.content
-                var_f = []
-                var_f.append(var_e)
-                
-                cursor.execute('INSERT INTO Switches (Nombre, Caracteristicas, Flujos) VALUES (%s, %s, %s);', [var_b, var_d, var_f])
-                mysql.connection.commit()
-                print("El switch", var_b, "ahora es elemento de la tabla Switches")
+                #Obtener la version del switch y almacenarlo
+                var_h = flujos.content
+                var_i = json.loads(var_h)
             
             else:
-                print(var_b, "ya pertenece a la tabla Switches")
-            #Consultar las tablas que exiten en la BD SDN-flows
-            #cursor.execute('SHOW TABLES;')
-            #tablas = cursor.fetchall()
-            
-            #Ver si existe la tabla del switch de turno
-            #det_b = False
-            #for k in tablas:
-            #    for m in k:
-            #        if m == var_c:
-            #            print("Tabla", var_c, "ya ha sido creada")
-            #        else:
-            #            cursor.execute('CREATE TABLE %s(Caracteristicas JSON NOT NULL, Flujos JSON NOT NULL);', [var_c])
-            #            mysql.connection.commit()
-            #            print("Tabla", var_c, "creada exitosamente")
-        
-    # Pedimos datos de la base de datos MySQL para mostrarlas en index.html
-    # Solicitar nombres y version
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT Nombre FROM Switches')
-    nombre_mysql = cur.fetchall()
-    #print(nombre_mysql)
-
-    cur.execute('SELECT Caracteristicas FROM Switches')
-    info_mysql = cur.fetchall()
-    #print(info_mysql)
+                print("Ocurrió un error con la API ofctl.rest.py")
     
-    return render_template('index.html') , 200
+    # Número de switches
+    n_switch = len(orden_switch)
+    
+    return render_template('index.html', numero = n_switch, orden = orden_switch , nombre = nombre_switch, tipo = tipo_switch, version = version_switch) , 200
 
 @app.route('/home/add', methods=['POST'])
 def addflows():
