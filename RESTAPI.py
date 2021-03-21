@@ -94,7 +94,7 @@ def showflows(n):
         
         tablas_activas = []
         for i in range(n_tablas):
-            if (tablas[i])["active_count"] is not 0:
+            if (tablas[i])["active_count"] != 0:
                 str_i = str(i)
                 tablas_activas.append(str_i)
                 for j in var_c:
@@ -106,6 +106,18 @@ def showflows(n):
                         flujos_por_tablas.append(formato)
     print(flujos_por_tablas)
     return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas), 200
+
+@app.route('/home/addflow/<string:n>', methods = ['GET'])
+def addflow(n):
+    return render_template('addflow.html', numero = n)
+
+@app.route('/home/addflow/<string:n>', methods = ['POST'])
+def add(n):
+    if request.method == 'POST':
+        id_tabla = request.form['id_tabla']
+        print(type(id_tabla))
+
+        return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug = True, port = port)

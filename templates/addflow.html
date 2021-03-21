@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h2>Agregación de FLujo en Switch {{numero}}</h2>
+<form action="/home/addflow/{{numero}}" method='POST'>
+    <h5>Número de Tabla</h5>
+    <input type="text" name="id_tabla" placeholder="Número">
+    <h5>Priority</h5>
+    <input type="text" name="priority" placeholder="0-65535", value="1">
+    <h5>Cookie</h5>
+    <input type="text" name="cookie" placeholder="Limitar cookies", value="0">
+    <h5>IDLE Timeout</h5>
+    <input type="text" name="idle_timeout" placeholder="", value="0">
+    <h5>HARD Timeout</h5>
+    <input type="text" name="hard_timeout" placeholder="", value="0">
+    <h5>Duración (segundos)</h5>
+    <input type="text" name="duracion" placeholder="0 para infinito", value="0">
+    <h6></h6>
+    <h6>Asegúrese que todos los datos son correctos</h6>
+    <button type="submit">Submit</button>
+</form>
+
+
+
+{% endblock %}
