@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h1>Switch {{numero}}: Flujos</h1>
+    {% for tabla in tablas_activas %}
+        <table border="8">
+            <thead>
+                <tr>
+                    <td>Prioridad</td>
+                    <td>Coincidencias</td>
+                    <td>Cookie</td>
+                    <td>Duración</td>
+                    <td>IDLE Timeout</td>
+                    <td>HARD Timeout</td>
+                    <td>Acciones</td>
+                    <td>Conteo Paquetes</td>
+                    <td>Flags</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in total %}
+                    
+                    <tr>
+                        <td>{{ (i[tabla])['priority'] }}</td>
+                        <td>{{ (i[tabla])['match'] }}</td>
+                        <td>{{ (i[tabla])['cookie'] }}</td>
+                        <td>{{ (i[tabla])['duration_sec'] }}</td>
+                        <td>{{ (i[tabla])['idle_timeout'] }}</td>
+                        <td>{{ (i[tabla])['hard_timeout'] }}</td>
+                        <td>{{ (i[tabla])['actions'] }}</td>
+                        <td>{{ (i[tabla])['packet_count'] }}</td>
+                        <td>{{ (i[tabla])['flags'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock %}

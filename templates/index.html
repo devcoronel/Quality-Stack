@@ -1,38 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast-QoS SDN</title>
-</head>
-<body>
-    <h1>Fast-QoS</h1>
-    <p>Configura tu controlador SDN Opensource con las herramientas que te ofrecemos</p>
-    <p>A continuación te mostramos detalles de los switches que tienes conectados a tu controlador:</p>
+{% extends 'layout.html' %}
+{% block body %}
 
-    <table>
-        <thead>
+
+<h1>Fast-QoS</h1>
+<p>Configura tu controlador SDN Opensource con las herramientas que te ofrecemos</p>
+<p>A continuación te mostramos detalles de los switches que tienes conectados a tu controlador:</p>
+<table border="8">
+    <thead>
+        <tr>
+            <td> <h3>Switches </h3></td>
+            <td> <h3>Tipo </h3></td>
+            <td> <h3>Versión </h3></td>
+            <td> <h3>FLujos </h3></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(numero) %}
             <tr>
-                <td>Switches</td>
-                <td>Tipo</td>
-                <td>Versión</td>
-                <td>FLujos</td>
+                <td>{{ nombre[i] }}</td>
+                <td>{{ tipo[i] }}</td>
+                <td> {{ version[i] }} </td>
+                <td>
+                    <a href="/home/showflows/{{orden[i]}}">Ver</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for i in range(numero) %}
-                <tr>
-                    <td>{{ nombre[i] }}</td>
-                    <td>{{ tipo[i] }}</td>
-                    <td> {{ version[i] }} </td>
-                    <td>
-                        <a href="/home/showflows/{{orden[i]}}">Ver</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    
-</body>
-</html>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

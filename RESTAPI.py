@@ -43,15 +43,11 @@ def home():
             url_caracteristicas = url_caracteristicas_variable +str_i
             caracteristicas = requests.get(url_caracteristicas)
 
-            #Obtener los flujos del switch de turno
-            url_flujos = url_flujos_variable +str_i
-            flujos = requests.get(url_flujos)
-
             #Formar nombre del switch y almacenarlo
             var_b = "sw_"+str_i
             nombre_switch.append(var_b)
             
-            if caracteristicas.status_code == 200 and flujos.status_code == 200:
+            if caracteristicas.status_code == 200:
                 #Obtener el tipo y version de switch y almacenarlo
                 var_c = caracteristicas.content
                 var_d = json.loads(var_c)
@@ -60,10 +56,6 @@ def home():
                 tipo_switch.append(var_f)
                 var_g = var_e["sw_desc"]
                 version_switch.append(var_g)
-
-                #Obtener la version del switch y almacenarlo
-                var_h = flujos.content
-                var_i = json.loads(var_h)
             
             else:
                 print("Ocurrió un error con la API ofctl.rest.py")
@@ -73,9 +65,47 @@ def home():
     
     return render_template('index.html', numero = n_switch, orden = orden_switch , nombre = nombre_switch, tipo = tipo_switch, version = version_switch) , 200
 
-@app.route('/home/add', methods=['POST'])
-def addflows():
-    return jsonify({"message": "add flows"})
+# Mostrar las tablas de flujos de cada switch
+@app.route('/home/showflows/<string:n>', methods=['GET'])
+def showflows(n):
+    # Primero obtener las tablas de flujo del switch
+    url_tablas_flujo = url_tablas_flujo_variable + n
+    print(url_tablas_flujo)
+    tablas_flujo = requests.get(url_tablas_flujo)
+
+    #Obtener los flujos del switch de turno
+    url_flujos = url_flujos_variable + n
+    flujos = requests.get(url_flujos)
+
+    flujos_por_tablas = []
+
+    if tablas_flujo.status_code == 200 and flujos.status_code == 200:
+        # Obtener las tablas en json
+        contenido = tablas_flujo.content
+        data = json.loads(contenido)
+        tablas = data[n]
+        n_tablas = len(tablas)
+
+        #Obtener los flujos en json
+        var_a = flujos.content
+        var_b = json.loads(var_a)
+        var_c = var_b[n]
+        var_d = len(var_c)
+        
+        tablas_activas = []
+        for i in range(n_tablas):
+            if (tablas[i])["active_count"] is not 0:
+                str_i = str(i)
+                tablas_activas.append(str_i)
+                for j in var_c:
+                    if j["table_id"] == i:
+                        formato = {
+                            str_i: j
+                        }
+
+                        flujos_por_tablas.append(formato)
+    print(flujos_por_tablas)
+    return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas), 200
 
 if __name__ == '__main__':
     app.run(debug = True, port = port)
