@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TopQoS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'base18.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+    </head>
+    <body>
+        
+        <input type="checkbox" id="check" />
+        <label for="check">
+            <i class="fas fa-bars" id="btn" ></i>
+            <i class="fas fa-times" id="cancel" ></i>
+        </label>
+        <div class="sidebar" >
+            <header>
+                <h1>Menú</h1>
+                <img src="{{ url_for('static', filename = 'logo.png') }}" width="220px" alt="Logo TopQoS">
+            </header>
+            <ul>
+                <li> <a href="/home"> <i class="fas fa-qrcode" ></i>Home</a> </li>
+                <li> <a href="#"> <i class="fas fa-link" ></i>Flujos</a> </li>
+                <li> <a href="#"> <i class="fas fa-stream" ></i>QoS</a> </li>
+                <li> <a href="#"> <i class="fas fa-calendar-week" ></i>Eventos</a> </li>
+                <li> <a href="#"> <i class="fas fa-question-circle" ></i>Guía</a> </li>
+                <li> <a href="#"> <i class="fas fa-sliders-h" ></i>Services</a> </li>
+                <li> <a href="#"> <i class="fas fa-envelope" ></i>Contacta</a> </li>
+
+            </ul>
+        </div>
+        <section class="cuerpo" >
+            {% block content %}
+
+            {% endblock %}
+        </section>
+
+        <section>
+            <div class="arriba" ></div>
+                <header class="header" >
+
+                    <div class="container logo-nav-container" >
+                        <nav class="navigation" >
+                            <ul>
+                                <li><a href="#">Inicio</a></li>
+                                <li><a href="#">Acerca</a></li>
+                                <li><a href="#">Servicios</a></li>
+                                <li><a href="#">Cerrar Sesión</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </header>
+            </div>
+        </section>
+    </body>
+</html>
+

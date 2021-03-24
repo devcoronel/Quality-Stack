@@ -1,39 +1,39 @@
-{% extends 'layout.html' %}
-{% block body %}
+{% extends 'base.html' %}
+{% block content %}
 
-<h1>Switch {{numero}}: Flujos</h1>
-    {% for tabla in tablas_activas %}
-        <h3>Tabla {{tabla}}</h3>
-        <table border="8">
-            <thead>
-                <tr>
-                    <td>Prioridad</td>
-                    <td>Coincidencias</td>
-                    <td>Cookie</td>
-                    <td>Duración</td>
-                    <td>IDLE Timeout</td>
-                    <td>HARD Timeout</td>
-                    <td>Acciones</td>
-                    <td>Conteo Paquetes</td>
-                    <td>Flags</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in total %}
-                    
+    <h1>Switch {{numero}}: Flujos</h1>
+        {% for tabla in tablas_activas %}
+            <h3>Tabla {{tabla}}</h3>
+            <table border="8" style="text-align: center; color: tomato;" >
+                <thead style="color: #192229; font-weight: bold;" >
                     <tr>
-                        <td>{{ (i[tabla])['priority'] }}</td>
-                        <td>{{ (i[tabla])['match'] }}</td>
-                        <td>{{ (i[tabla])['cookie'] }}</td>
-                        <td>{{ (i[tabla])['duration_sec'] }}</td>
-                        <td>{{ (i[tabla])['idle_timeout'] }}</td>
-                        <td>{{ (i[tabla])['hard_timeout'] }}</td>
-                        <td>{{ (i[tabla])['actions'] }}</td>
-                        <td>{{ (i[tabla])['packet_count'] }}</td>
-                        <td>{{ (i[tabla])['flags'] }}</td>
+                        <td>Prioridad</td>
+                        <td>Coincidencias</td>
+                        <td>Cookie</td>
+                        <td>Duración</td>
+                        <td>IDLE Timeout</td>
+                        <td>HARD Timeout</td>
+                        <td>Acciones</td>
+                        <td>Conteo Paquetes</td>
+                        <td>Flags</td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% endfor %}
+                </thead>
+                <tbody style="color: rgb(23, 32,42);" >
+                    {% for i in total %}
+                        
+                        <tr>
+                            <td>{{ (i[tabla])['priority'] }}</td>
+                            <td>{{ (i[tabla])['match'] }}</td>
+                            <td>{{ (i[tabla])['cookie'] }}</td>
+                            <td>{{ (i[tabla])['duration_sec'] }}</td>
+                            <td>{{ (i[tabla])['idle_timeout'] }}</td>
+                            <td>{{ (i[tabla])['hard_timeout'] }}</td>
+                            <td>{{ (i[tabla])['actions'] }}</td>
+                            <td>{{ (i[tabla])['packet_count'] }}</td>
+                            <td>{{ (i[tabla])['flags'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
 {% endblock %}

@@ -1,31 +1,32 @@
-{% extends 'layout.html' %}
-{% block body %}
+{% extends 'base.html' %}
+{% block content %}
 
 
-<h1>Fast-QoS</h1>
-<p>Configura tu controlador SDN Opensource con las herramientas que te ofrecemos</p>
-<p>A continuación te mostramos detalles de los switches que tienes conectados a tu controlador:</p>
-<table border="8">
-    <thead>
-        <tr>
-            <td> <h3>Switches </h3></td>
-            <td> <h3>Tipo </h3></td>
-            <td> <h3>Versión </h3></td>
-            <td> <h3>FLujos </h3></td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for i in range(numero) %}
+    <h1 style="color: rgb(23, 32,42)" >Fast-QoS</h1>
+    <p style="color:#192229" >Configura tu controlador SDN Opensource con las herramientas que te ofrecemos</p>
+    <p style="color:#192229;" >A continuación te mostramos detalles de los switches que tienes conectados a tu controlador:</p>
+
+    <table border="8" style="text-align: center;" >
+        <thead>
             <tr>
-                <td>{{ nombre[i] }}</td>
-                <td>{{ tipo[i] }}</td>
-                <td> {{ version[i] }} </td>
-                <td>
-                    <a href="/home/showflows/{{orden[i]}}">Ver</a>
-                    <a href="/home/addflow/{{orden[i]}}">Agregar flujo</a>
-                </td>
+                <td> <h3>Switches </h3></td>
+                <td> <h3>Tipo </h3></td>
+                <td> <h3>Versión </h3></td>
+                <td> <h3>FLujos </h3></td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for i in range(numero) %}
+                <tr>
+                    <td>{{ nombre[i] }}</td>
+                    <td>{{ tipo[i] }}</td>
+                    <td> {{ version[i] }} </td>
+                    <td>
+                        <a href="/home/showflows/{{orden[i]}}">Ver</a>
+                        <a href="/home/addflow/{{orden[i]}}">Agregar flujo</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
