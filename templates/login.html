@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TopQoS | Login</title>
+    <link rel="stylesheet" href="../static/login.css">
+</head>
+<body>
+    <img src="../static/fondo.jpg" alt="" class="imagen" >
+    <div >
+        <img src="../static/logo_original.png" alt="Logo TopQoS" class="logo">
+
+    </div>
+    
+    <div class="contenido" >
+        <img src="../static/logo.png" alt="Logo TopQoS" class="imagen2" >
+
+        <form action="/" method="POST" class= "formulario">
+            <h2 style="color: #55acea; margin-left: 50px;" >Usuario</h2>
+            <input type="text" class="usuario" name="usuario" placeholder="Ingrese el usuario">
+            
+            <h2 style="color: #55acea; margin-left: 50px;" >Contraseña</h2>
+            <input type="password" class="clave" id="contraseña" name="clave" placeholder="Ingrese la clave">
+            <img src="../static/mostrar.png" alt="" class="boton" id="boton" style="width:25px; cursor:pointer; position:absolute; left:263px; top: 309px" >
+            <hr>
+            <button type="submit" class="btn" > Log In </button>
+        </form>
+    </div>
+
+    <script>
+        var boton = document.getElementById('boton');
+        var input = document.getElementById('contraseña');
+
+        boton.addEventListener('click', mostrarContraseña);
+
+        function mostrarContraseña(){
+            if(input.type == "password"){
+                input.type = "text";
+                boton.src="../static/ocultar.png";
+            } else{
+                input.type = "password";
+                boton.src = "../static/mostrar.png";
+            }
+        }
+    </script>
+    
+</body>
+</html>

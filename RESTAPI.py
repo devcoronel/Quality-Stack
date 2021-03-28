@@ -16,6 +16,37 @@ mysql = MySQL(app)
 # Key para permitir insertar texto en index.html
 app.secret_key = 'mysecretkey'
 
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('404.html')
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('500.html')
+
+@app.route('/', methods=['GET'])
+def main():
+    return render_template('login.html')
+
+@app.route('/', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+
+        cursor = mysql.connection.cursor()
+        cursor.execute('''SELECT username FROM users ''')
+        usernames = cursor.fetchall()
+        
+        for i in usernames:
+            if usuario == i[0]:
+                cursor.execute(''' SELECT pass FROM users WHERE username = %s ''', [usuario])
+                password = cursor.fetchall()
+                print(type((password[0])[0]))
+
+        return "ok"
+
+
 @app.route('/home', methods=['GET'])
 def home():
     #Orden de los switches

@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.contenido {
+    background: rgb(23, 32,42);
+    position: absolute;
+    width: 350px;
+    height: 450px;
+    right: 80px;
+    top: 100px;
+    border-radius: 10% 10% 10% 10%;
+}
+.imagen2{
+    padding-top: 40px;
+    width: 350px;
+    margin-bottom: 30px;
+}
+
+.usuario {
+    margin-bottom: 20px;
+    margin-left: 50px;
+}
+.clave {
+    margin-bottom: 20px;
+    margin-left: 50px;
+
+}
+
+.btn{
+    margin-left: 135px;
+    margin-top: 15px;
+    width: 80px;
+    height: 31px;
+    text-decoration: none;
+    
+
+}
+
+.btn:hover{
+    background-color:tomato;
+    color:white;
+    border-radius:10% 10% 10% 10%;
+    border: 0;
+}
+
+.logo{
+    position: absolute;
+    top: 0;
+    border-radius: 50% 50% 50% 50%;
+    width: 200px;
+    left: 200px;
+    top: 225px;
+}

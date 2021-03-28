@@ -2,7 +2,8 @@ Entramos a la carpeta del proyecto y damos
 click derecho y abrir una Terminal
 
 Luego ejecutamos
-python -m venv venv
+python -m venv venv   (windows)
+python3 -m venv venv  (linux)
 
 Se creará una carpeta 'venv'
 

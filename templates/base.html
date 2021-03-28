@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>TopQoS</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'base18.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'base19.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
     </head>
     <body>
@@ -15,7 +15,7 @@
             <i class="fas fa-bars" id="btn" ></i>
             <i class="fas fa-times" id="cancel" ></i>
         </label>
-        <div class="sidebar" >
+        <div class="sidebar" id="lateral" >
             <header>
                 <h1>Menú</h1>
                 <img src="{{ url_for('static', filename = 'logo.png') }}" width="220px" alt="Logo TopQoS">
@@ -32,17 +32,21 @@
             </ul>
         </div>
         <section class="cuerpo" >
-            {% block content %}
-
-            {% endblock %}
+            <div class="contenedor" >
+                {% block content %}
+                    <p>Hola</p>
+                {% endblock %}
+            </div>
+            
         </section>
 
         <section>
             <div class="arriba" ></div>
-                <header class="header" >
+                <header class="header" id="header" >
 
                     <div class="container logo-nav-container" >
                         <nav class="navigation" >
+                            <img src="{{ url_for('static', filename = 'logo_oficial.png') }}" class="oficialogo" alt="TopQoS" title="TopQoS" >
                             <ul>
                                 <li><a href="#">Inicio</a></li>
                                 <li><a href="#">Acerca</a></li>

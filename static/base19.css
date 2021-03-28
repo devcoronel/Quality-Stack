@@ -19,7 +19,7 @@ body {
     height: 100%;
     background: rgb(23, 32,42);
     transition: all .4s ease;
-    padding-top: 4.1rem;
+    padding-top: 3.6rem;
 
 }
 
@@ -68,25 +68,36 @@ label #btn,label #cancel{
 }
 
 label #btn{
-    left: 15px;
-    top: 80px;
-    font-size: 25px;
+    left: 10px;
+    top: 75px;
+    font-size: 20px;
     color: white;
     padding: 6px 12px;
     transition: all .4s ease;
     position: fixed;
 }
 
+label #btn:hover{
+    background: tomato;
+}
+
+
+
 label #cancel{
     z-index: 1111;
     left: -195px;
-    top: 80px;
-    font-size: 25px;
+    top: 75px;
+    font-size: 20px;
     color: white;
     padding: 4px 9px;
     transition:all .4s ease;
     position: fixed;
 }
+
+label #cancel:hover{
+    background: tomato;
+}
+
 
 #check:checked ~ .sidebar{
     left: 0;
@@ -103,7 +114,7 @@ label #cancel{
 }
 
 #check:checked ~ section{
-    margin-left: 220px;
+    margin-left: 165px;
 }
 
 .cuerpo{
@@ -112,8 +123,11 @@ label #cancel{
     background-size: cover;
     height: 100vh;
     transition: all .4s ease;
-    padding-top: 5rem;
+    padding-top: 4.6rem;
+}
 
+.contenedor{
+    padding-left: 4.1rem;
 }
 
 .arriba {
@@ -125,17 +139,19 @@ label #cancel{
 .header {
     background: rgb(23, 32,42);
     color: white;
-    padding: 1rem 0;
+    padding: .7rem 0;
     left: 0;
     top: 0;
     right: 0;
     position: fixed;
+    box-shadow: 1px 1px 4px #55acea;
 }
 
     .header a{
         color:#55acea;
         text-decoration: none;
         font-weight: bolder;
+        font-size: 18px;
     }
 
 .logo-nav-container{
@@ -165,6 +181,9 @@ label #cancel{
                 color: white;
             }
 
-.imagen{
-    width: 50px;
+.oficialogo{
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 65px;
 }
