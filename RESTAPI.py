@@ -1,6 +1,9 @@
 # Página de inicio: localhost:3000/home
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_mysqldb import MySQL
+from flask_wtf import FlaskForm
+from wtforms.fields import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired
 import requests, json
 from variables import *
 
@@ -12,6 +15,15 @@ app.config['MYSQL_USER'] = user
 app.config['MYSQL_PASSWORD'] = password
 app.config['MYSQL_DB'] = db
 mysql = MySQL(app)
+
+#Crear una clase para WTF
+class LoginForm(FlaskForm):
+    username = StringField('Nombre de usuario', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Enviar')
+
+# Configurar una llave secreta para session
+app.config['SECRET_KEY'] = 'clave'
 
 # Key para permitir insertar texto en index.html
 app.secret_key = 'mysecretkey'
@@ -26,25 +38,27 @@ def error_500(error):
 
 @app.route('/', methods=['GET'])
 def main():
-    return render_template('login.html')
+    #Llamar a la clase LoginForm y pasársela al template
+    login_form = LoginForm()
+    return render_template('login.html', login_form = login_form)
 
 @app.route('/', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        usuario = request.form['usuario']
-        clave = request.form['clave']
+    #if request.method == 'POST':
+        # usuario = request.form['usuario']
+        # clave = request.form['clave']
 
-        cursor = mysql.connection.cursor()
-        cursor.execute('''SELECT username FROM users ''')
-        usernames = cursor.fetchall()
+        # cursor = mysql.connection.cursor()
+        # cursor.execute('''SELECT username FROM users ''')
+        # usernames = cursor.fetchall()
         
-        for i in usernames:
-            if usuario == i[0]:
-                cursor.execute(''' SELECT pass FROM users WHERE username = %s ''', [usuario])
-                password = cursor.fetchall()
-                print(type((password[0])[0]))
+        # for i in usernames:
+        #     if usuario == i[0]:
+        #         cursor.execute(''' SELECT pass FROM users WHERE username = %s ''', [usuario])
+        #         password = cursor.fetchall()
+        #         print(type((password[0])[0]))
 
-        return "ok"
+    return "ok"
 
 
 @app.route('/home', methods=['GET'])

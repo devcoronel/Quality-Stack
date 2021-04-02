@@ -19,13 +19,18 @@
 
         <form action="/" method="POST" class= "formulario">
             <h2 style="color: #55acea; margin-left: 50px;" >Usuario</h2>
-            <input type="text" class="usuario" name="usuario" placeholder="Ingrese el usuario">
+            <!-- <input type="text" class="usuario" name="usuario" placeholder="Ingrese el usuario"> -->
+            {{ login_form.username }}
             
             <h2 style="color: #55acea; margin-left: 50px;" >Contraseña</h2>
-            <input type="password" class="clave" id="contraseña" name="clave" placeholder="Ingrese la clave">
+            <!-- <input type="password" class="clave" id="contraseña" name="clave" placeholder="Ingrese la clave"> -->
+            {{ login_form.password }}
+
             <img src="../static/mostrar.png" alt="" class="boton" id="boton" style="width:25px; cursor:pointer; position:absolute; left:263px; top: 309px" >
             <hr>
-            <button type="submit" class="btn" > Log In </button>
+            <!-- <button type="submit" class="btn" > Log In </button> -->
+            {{ login_form.submit }}
+
         </form>
     </div>
 
