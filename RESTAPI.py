@@ -1,9 +1,19 @@
 # Página de inicio: localhost:3000/home
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_mysqldb import MySQL
-from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
+
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import set_access_cookies
+from flask_jwt_extended import unset_jwt_cookies
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt
+
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
+
 import requests, json
 from variables import *
 
@@ -16,14 +26,24 @@ app.config['MYSQL_PASSWORD'] = password
 app.config['MYSQL_DB'] = db
 mysql = MySQL(app)
 
-#Crear una clase para WTF
-class LoginForm(FlaskForm):
-    username = StringField('Nombre de usuario', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Enviar')
+# Hacer que los JWT funcionen con cookies
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 
-# Configurar una llave secreta para session
-app.config['SECRET_KEY'] = 'clave'
+# Por el momento debe estar en false ya que no estamos usando HTTPS
+# pero son buenas prácticas usar HTTPS y activar a True
+app.config["JWT_COOKIE_SECURE"] = False
+
+# Configurar una llave para el JWT
+app.config['JWT_SECRET_KEY'] = 'cambiar-esto'
+
+# Curiosidad
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+
+# Dar un tiempo de expiración al JWT
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
+
+# Activar JWT con todos los parámetros configurados
+jwt = JWTManager(app)
 
 # Key para permitir insertar texto en index.html
 app.secret_key = 'mysecretkey'
@@ -36,32 +56,74 @@ def error_404(error):
 def error_500(error):
     return render_template('500.html')
 
-@app.route('/', methods=['GET'])
-def main():
-    #Llamar a la clase LoginForm y pasársela al template
-    login_form = LoginForm()
-    return render_template('login.html', login_form = login_form)
-
-@app.route('/', methods=['POST'])
-def login():
-    #if request.method == 'POST':
-        # usuario = request.form['usuario']
-        # clave = request.form['clave']
-
-        # cursor = mysql.connection.cursor()
-        # cursor.execute('''SELECT username FROM users ''')
-        # usernames = cursor.fetchall()
+# Refrescar JWT
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        if response.status_code == 401: # Si no estamos autorizados (JWT vencido o no logueado) se borrarán esas cookies  
+            response = redirect('/login')
+            unset_jwt_cookies(response)
+            return response
+            
+        exp_timestamp = get_jwt()["exp"] # Obtener la fecha de expiración del JWT actual
+        now = datetime.now(timezone.utc) # Obtener la hora local
+        target_timestamp = datetime.timestamp(now + timedelta(hours=20)) # A la hora actual aumentar 15min
         
-        # for i in usernames:
-        #     if usuario == i[0]:
-        #         cursor.execute(''' SELECT pass FROM users WHERE username = %s ''', [usuario])
-        #         password = cursor.fetchall()
-        #         print(type((password[0])[0]))
+        if target_timestamp > exp_timestamp:
+            additional_claims = {"roleuser": get_jwt()["roleuser"]} # Obtenemos el rol del JWT anterior para conservarlo
+            access_token = create_access_token(identity=get_jwt_identity(), additional_claims=additional_claims) # crear el nuevo JWT con su misma identidad y rol
+            set_access_cookies(response, access_token) # Configuramos el JWT y retornamos el request que se estaba pidiendo
 
-    return "ok"
+        return response
+
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original response
+        return response
+
+
+@app.route('/login', methods=['GET'])
+@jwt_required(optional=True)
+def main():
+    current_identity = get_jwt_identity()
+    if current_identity:
+        return redirect('/home')
+    else:
+        return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        clave = request.form['clave']
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT IF (username = %s AND pass = %s, True, False), roleuser FROM users where username = %s", [usuario, clave, usuario])
+        resultado = cursor.fetchall()
+
+        if resultado == ():
+            return render_template('login.html')
+        else:
+            validador = (resultado[0])[0]
+            roluser = (resultado[0])[1]
+
+            if validador == True:
+                response = redirect('/home')
+                additional_claims = {"roleuser": roluser}
+                access_token = create_access_token(identity= usuario, additional_claims=additional_claims)
+                set_access_cookies(response, access_token)
+                return response
+            else:
+                return render_template('login.html')
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = redirect('/login')
+    unset_jwt_cookies(response)
+    return response
 
 
 @app.route('/home', methods=['GET'])
+@jwt_required()
 def home():
     #Orden de los switches
     orden_switch = []
@@ -112,6 +174,7 @@ def home():
 
 # Mostrar las tablas de flujos de cada switch
 @app.route('/home/showflows/<string:n>', methods=['GET'])
+@jwt_required()
 def showflows(n):
     # Primero obtener las tablas de flujo del switch
     url_tablas_flujo = url_tablas_flujo_variable + n
@@ -149,14 +212,16 @@ def showflows(n):
                         }
 
                         flujos_por_tablas.append(formato)
-    print(flujos_por_tablas)
+    # print(flujos_por_tablas)
     return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas), 200
 
 @app.route('/home/addflow/<string:n>', methods = ['GET'])
+@jwt_required()
 def addflow(n):
     return render_template('addflow.html', numero = n)
 
 @app.route('/home/addflow/<string:n>', methods = ['POST'])
+@jwt_required()
 def add(n):
     if request.method == 'POST':
         id_tabla = request.form['id_tabla']

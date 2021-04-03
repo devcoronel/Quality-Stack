@@ -7,6 +7,7 @@
         <title>TopQoS</title>
         <link rel="stylesheet" href="{{ url_for('static', filename = 'base19.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+        <link rel="shortcut icon" href="#">
     </head>
     <body>
         
@@ -28,6 +29,7 @@
                 <li> <a href="#"> <i class="fas fa-question-circle" ></i>Guía</a> </li>
                 <li> <a href="#"> <i class="fas fa-sliders-h" ></i>Services</a> </li>
                 <li> <a href="#"> <i class="fas fa-envelope" ></i>Contacta</a> </li>
+                <li> <a href=""><form action="/logout" method="POST" > <button class="cerrar">Cerrar Sesión</button> </form> </li></a>
 
             </ul>
         </div>
@@ -51,7 +53,7 @@
                                 <li><a href="#">Inicio</a></li>
                                 <li><a href="#">Acerca</a></li>
                                 <li><a href="#">Servicios</a></li>
-                                <li><a href="#">Cerrar Sesión</a></li>
+                                <!-- <li> <form action="/logout" method="POST" > <button>Cerrar Sesión</button> </form> </li> -->
                             </ul>
                         </nav>
                     </div>
