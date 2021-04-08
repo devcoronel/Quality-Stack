@@ -10,6 +10,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 mysqlclient==2.0.3
+pycryptodome==3.10.1
 PyJWT==2.0.1
 requests==2.25.1
 urllib3==1.26.3

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Tú eres admin</h2>
+    <form action="/adduser" method="POST">
+        <h5>Nombre de usuario</h5>
+        <input type="text" name="addusername" placeholder="Usuario Nuevo">
+        <h5>Contraseña</h5>
+        <input type="text" name="addpassword1">
+        <h5>Repita la contraseña</h5>
+        <input type="text" name="addpassword2">
+        <h6></h6>
+        <h6>Asegúrese que todos los datos son correctos</h6>
+        <button type="submit">Crear usuario</button>
+    </form>
+    <script>
+        const a = document.cookie;
+        const parts = a.split('csrf_access_token');
+        c = parts.pop().split(';').shift();
+        g = c.substring(1);
+
+        async function makeRequestWithJWT() {
+            const options = {
+                method: 'post',
+                credentials: 'same-origin',
+                headers: {
+                'X-CSRF-TOKEN': g,
+                    },
+                };
+            const response = await fetch('/adduser', options);
+            const result = await response.json();
+            return result;
+            }
+    </script>
+{% endblock %}

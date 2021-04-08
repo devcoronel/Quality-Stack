@@ -1,4 +1,4 @@
-# Página de inicio: localhost:3000/home
+# Falta agregar cabecera X-CSRF-TOKEN para las solicitudes POST
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_mysqldb import MySQL
 
@@ -16,6 +16,7 @@ from datetime import timezone
 
 import requests, json
 from variables import *
+from cripto import *
 
 app = Flask(__name__)
 
@@ -34,7 +35,7 @@ app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config["JWT_COOKIE_SECURE"] = False
 
 # Configurar una llave para el JWT
-app.config['JWT_SECRET_KEY'] = 'cambiar-esto'
+app.config['JWT_SECRET_KEY'] = key_para_jwt()
 
 # Curiosidad
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
@@ -228,6 +229,23 @@ def add(n):
         print(type(id_tabla))
 
         return redirect(url_for('home'))
+
+@app.route('/adduser', methods=['GET'])
+@jwt_required()
+def adduser():
+    comprobar_role = get_jwt()['roleuser']
+    if comprobar_role == "admin":
+        return render_template('adduser.html')
+    else:
+        return render_template('AccessDenied.html')
+
+@app.route('/adduser', methods=['POST'])
+# @jwt_required() #ARREGLAR
+def adduser_post():
+    if request.method == 'POST':
+        addusername = request.form["addusername"]
+        print(addusername)
+        return addusername
 
 if __name__ == '__main__':
     app.run(debug = True, port = port)
