@@ -10,12 +10,12 @@
     position: absolute;
     width: 350px;
     height: 450px;
-    right: 80px;
+    right: 490px;
     top: 100px;
     border-radius: 10% 10% 10% 10%;
 }
 .imagen2{
-    padding-top: 40px;
+    padding-top: 30px;
     width: 350px;
     margin-bottom: 30px;
 }
@@ -47,11 +47,8 @@
     border: 0;
 }
 
-.logo{
-    position: absolute;
-    top: 0;
-    border-radius: 50% 50% 50% 50%;
-    width: 200px;
-    left: 200px;
-    top: 225px;
+.mensaje {
+    text-align: center;
+    color: tomato;
+    padding-top: 10px;
 }

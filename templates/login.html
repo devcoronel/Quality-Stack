@@ -5,19 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TopQoS | Login</title>
-    <link rel="stylesheet" href="../static/login.css">
+    <link rel="stylesheet" href="../static/login19.css">
     <link rel="shortcut icon" href="#">
 
 </head>
 <body>
     <img src="../static/fondo.jpg" alt="" class="imagen" >
-    <div >
-        <img src="../static/logo_original.png" alt="Logo TopQoS" class="logo">
 
-    </div>
-    
     <div class="contenido" >
-        <img src="../static/logo.png" alt="Logo TopQoS" class="imagen2" >
+        <img src="../static/logo.png" alt="Logo TopQoS" class="imagen2" style="border-radius: 24%;">
 
         <form action="/login" method="POST" class= "formulario">
             <h2 style="color: #55acea; margin-left: 50px;" >Usuario</h2>
@@ -28,10 +24,17 @@
             <input type="password" class="clave" id="contraseña" name="clave" placeholder="Ingrese la clave">
 
 
-            <img src="../static/mostrar.png" alt="" class="boton" id="boton" style="width:25px; cursor:pointer; position:absolute; left:263px; top: 309px" >
+            <img src="../static/mostrar.png" alt="" class="boton" id="boton" style="width:25px; cursor:pointer; position:absolute; left:263px; top: 300px" >
             <hr>
             <button type="submit" class="btn" > Log In </button>
 
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for msg in messages %}
+                        <p class="mensaje" >{{msg}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
 
         </form>
     </div>

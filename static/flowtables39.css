@@ -1,0 +1,26 @@
+.luswitch{
+    text-align: center;
+}
+
+.switch{
+    text-decoration: none;
+    display: inline;
+    padding: 10px 10px;
+    margin: 20px 80px;
+    font-size: large;
+    
+    border-radius: 8px;
+}
+
+.aswitch:link, .aswitch:visited{
+    text-decoration: none;
+    color: gray;
+    font-weight: bold;
+}
+
+.switch:hover{
+    background: #e47911;
+}
+    .aswitch:hover{
+        color: white;
+    }

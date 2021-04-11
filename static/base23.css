@@ -46,7 +46,7 @@ body {
     transition: all .4s ease;
 }
 
-ul li:hover a{
+ul .menu:hover a{
     padding-left: 50px;
     color: tomato;
 }
@@ -69,7 +69,7 @@ label #btn,label #cancel{
 
 label #btn{
     left: 10px;
-    top: 75px;
+    top: 72px;
     font-size: 20px;
     color: white;
     padding: 6px 12px;
@@ -80,8 +80,6 @@ label #btn{
 label #btn:hover{
     background: tomato;
 }
-
-
 
 label #cancel{
     z-index: 1111;
@@ -128,6 +126,7 @@ label #cancel:hover{
 
 .contenedor{
     padding-left: 4.1rem;
+    padding-right: 4.1rem;
 }
 
 .arriba {

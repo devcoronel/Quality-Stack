@@ -4,10 +4,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TopQoS</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'base19.css') }}">
+        <title>App</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'base23.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
         <link rel="shortcut icon" href="#">
+        
     </head>
     <body>
         
@@ -22,21 +23,21 @@
                 <img src="{{ url_for('static', filename = 'logo.png') }}" width="220px" alt="Logo TopQoS">
             </header>
             <ul>
-                <li> <a href="/home"> <i class="fas fa-qrcode" ></i>Home</a> </li>
-                <li> <a href="#"> <i class="fas fa-link" ></i>Flujos</a> </li>
-                <li> <a href="#"> <i class="fas fa-stream" ></i>QoS</a> </li>
-                <li> <a href="#"> <i class="fas fa-calendar-week" ></i>Eventos</a> </li>
-                <li> <a href="#"> <i class="fas fa-question-circle" ></i>Guía</a> </li>
-                <li> <a href="#"> <i class="fas fa-sliders-h" ></i>Services</a> </li>
-                <li> <a href="/adduser"> <i class="fas fa-envelope" ></i>Add user</a> </li>
-                <li> <a href=""><form action="/logout" method="POST" > <button class="cerrar">Cerrar Sesión</button> </form> </li></a>
+                <li class="menu"> <a href="/home"> <i class="fas fa-qrcode" ></i>Inicio</a> </li>
+                <li class="menu"> <a href="/flowtables"> <i class="fas fa-link" ></i>Flujos</a> </li>
+                <li class="menu"> <a href="#"> <i class="fas fa-stream" ></i>QoS</a> </li>
+                <li class="menu"> <a href="#"> <i class="fas fa-calendar-week" ></i>Eventos</a> </li>
+                <li class="menu"> <a href="#"> <i class="fas fa-question-circle" ></i>Guía</a> </li>
+                <li class="menu"> <a href="#"> <i class="fas fa-sliders-h" ></i>Services</a> </li>
+                <li class="menu"> <a href="/adduser"> <i class="fas fa-envelope" ></i>Add user</a> </li>
+                <li class="menu"> <a href=""><form action="/logout" method="POST" > <button class="cerrar">Cerrar Sesión</button> </form> </li></a>
 
             </ul>
         </div>
         <section class="cuerpo" >
             <div class="contenedor" >
                 {% block content %}
-                    <p>Hola</p>
+                    
                 {% endblock %}
             </div>
             

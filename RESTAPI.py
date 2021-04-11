@@ -102,6 +102,7 @@ def login():
         resultado = cursor.fetchall()
 
         if resultado == ():
+            flash('Usuario y/o contraseña incorrectos')
             return render_template('login.html')
         else:
             validador = (resultado[0])[0]
@@ -114,6 +115,7 @@ def login():
                 set_access_cookies(response, access_token)
                 return response
             else:
+                flash('Usuario y/o contraseña incorrectos')
                 return render_template('login.html')
 
 @app.route("/logout", methods=["POST"])
@@ -173,13 +175,33 @@ def home():
     
     return render_template('index.html', numero = n_switch, orden = orden_switch , nombre = nombre_switch, tipo = tipo_switch, version = version_switch) , 200
 
+# Resumen de las tablas de flujo que se pueden mostrar
+@app.route('/flowtables', methods=['GET'])
+@jwt_required()
+def flowtables():
+    response = requests.get(url_switches_variable)
+
+    if response.status_code == 200:
+        var_a = response.content
+        data = json.loads(var_a)
+        return render_template('flowtables.html', flowtables = data)
+    
+    else:
+        return render_template('500.html')
+
 # Mostrar las tablas de flujos de cada switch
-@app.route('/home/showflows/<string:n>', methods=['GET'])
+@app.route('/flowtables/<string:n>', methods=['GET'])
 @jwt_required()
 def showflows(n):
+
+    response = requests.get(url_switches_variable)
+
+    if response.status_code == 200:
+        var_a = response.content
+        data_switches = json.loads(var_a)
+
     # Primero obtener las tablas de flujo del switch
     url_tablas_flujo = url_tablas_flujo_variable + n
-    print(url_tablas_flujo)
     tablas_flujo = requests.get(url_tablas_flujo)
 
     #Obtener los flujos del switch de turno
@@ -214,7 +236,7 @@ def showflows(n):
 
                         flujos_por_tablas.append(formato)
     # print(flujos_por_tablas)
-    return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas), 200
+    return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas, flowtables=data_switches), 200
 
 @app.route('/home/addflow/<string:n>', methods = ['GET'])
 @jwt_required()
