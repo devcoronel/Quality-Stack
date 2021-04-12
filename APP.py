@@ -17,6 +17,7 @@ from datetime import timezone
 import requests, json
 from variables import *
 from cripto import *
+from validaciones import *
 
 app = Flask(__name__)
 
@@ -98,23 +99,30 @@ def login():
         clave = request.form['clave']
 
         cursor = mysql.connection.cursor()
-        cursor.execute("SELECT IF (username = %s AND pass = %s, True, False), roleuser FROM users where username = %s", [usuario, clave, usuario])
+        cursor.execute("SELECT EXISTS (SELECT id FROM users WHERE username = %s);", [usuario])
         resultado = cursor.fetchall()
+        resultado = (resultado[0])[0]
 
-        if resultado == ():
-            flash('Usuario y/o contraseña incorrectos')
-            return render_template('login.html')
-        else:
-            validador = (resultado[0])[0]
-            roluser = (resultado[0])[1]
+        if resultado == 1:
+            clave = ENC_AES256CBC(clave)
+            cursor.execute("SELECT IF(passbytes = %s, True, False), roleuser FROM users WHERE username = %s;", [clave, usuario])
+            verif_clave = cursor.fetchall()
+            clave = (verif_clave[0])[0]
+            roleuser = (verif_clave[0])[1]
+            print(clave, roleuser)
 
-            if validador == True:
+            if clave == 1:
                 response = redirect('/home')
-                additional_claims = {"roleuser": roluser}
+                additional_claims = {"roleuser": roleuser}
                 access_token = create_access_token(identity= usuario, additional_claims=additional_claims)
                 set_access_cookies(response, access_token)
                 return response
+            
             else:
+                flash('Usuario y/o contraseña incorrectos')
+                return render_template('login.html')
+
+        else:
                 flash('Usuario y/o contraseña incorrectos')
                 return render_template('login.html')
 
@@ -241,7 +249,12 @@ def showflows(n):
 @app.route('/home/addflow/<string:n>', methods = ['GET'])
 @jwt_required()
 def addflow(n):
-    return render_template('addflow.html', numero = n)
+    comprobar_role = get_jwt()['roleuser']
+    if comprobar_role == 'admin' or comprobar_role == 'operator':
+        return render_template('addflow.html', numero = n)
+    
+    else:
+        return render_template('AccessDenied.html')
 
 @app.route('/home/addflow/<string:n>', methods = ['POST'])
 @jwt_required()
@@ -262,12 +275,46 @@ def adduser():
         return render_template('AccessDenied.html')
 
 @app.route('/adduser', methods=['POST'])
-# @jwt_required() #ARREGLAR
+#@jwt_required() #ARREGLAR
 def adduser_post():
     if request.method == 'POST':
-        addusername = request.form["addusername"]
-        print(addusername)
-        return addusername
+        username = request.form["addusername"]
+        password1 = request.form["addpassword1"]
+        password2 = request.form["addpassword2"]
+        rol = request.form["rol"]
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT EXISTS (SELECT id FROM users WHERE username = %s);", [username])
+        resultado = cursor.fetchall()
+        existe = (resultado[0])[0]
+
+        validacion = validar(username, password1, password2, existe, rol)
+        if validacion[0] == True:
+            msg = validacion[1]
+            flash(msg)
+            enc_pass = ENC_AES256CBC(password1)
+            opciones_rol = ['none','admin', 'operator', 'viewer']
+            roleuser = opciones_rol[int(rol)]
+            
+            cursor.execute("INSERT INTO users(username, roleuser, passbytes) VALUES (%s, %s, %s)", [username, roleuser, enc_pass])
+            mysql.connection.commit()
+
+        else:
+            msg = validacion[1]
+            flash(msg)
+        
+        return render_template('adduser.html', usuario = username)
+
+# @app.route('/desencriptar')
+# def desencriptar():
+#     cursor = mysql.connection.cursor()
+#     cursor.execute("SELECT passbytes FROM users WHERE username = 'Brenda';")
+#     resultado = cursor.fetchall()
+#     resultado = (resultado[0])[0]
+    
+#     b = DEC_AES256CBC(a, key, iv)
+    
+#     return b
 
 if __name__ == '__main__':
     app.run(debug = True, port = port)
