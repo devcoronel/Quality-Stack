@@ -104,7 +104,7 @@ def login():
         resultado = (resultado[0])[0]
 
         if resultado == 1:
-            clave = ENC_AES256CBC(clave)
+            clave = SHA256(clave)
             cursor.execute("SELECT IF(passbytes = %s, True, False), roleuser FROM users WHERE username = %s;", [clave, usuario])
             verif_clave = cursor.fetchall()
             clave = (verif_clave[0])[0]
@@ -292,7 +292,7 @@ def adduser_post():
         if validacion[0] == True:
             msg = validacion[1]
             flash(msg)
-            enc_pass = ENC_AES256CBC(password1)
+            enc_pass = SHA256(password1)
             opciones_rol = ['none','admin', 'operator', 'viewer']
             roleuser = opciones_rol[int(rol)]
             
@@ -311,9 +311,8 @@ def adduser_post():
 #     cursor.execute("SELECT passbytes FROM users WHERE username = 'Brenda';")
 #     resultado = cursor.fetchall()
 #     resultado = (resultado[0])[0]
-    
+
 #     b = DEC_AES256CBC(a, key, iv)
-    
 #     return b
 
 if __name__ == '__main__':

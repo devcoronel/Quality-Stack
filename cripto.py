@@ -2,6 +2,8 @@ from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 
+import hashlib
+
 key = b'\xc4Nu\xb8b\x95W\xe7=`\xde\x99\xfe"\xbb!\x07\xe8\x8fp\xfd8\xc2\x9a\xca\x89Qr\x14\xd1\xda\xaf'
 iv = b'\xb7\xb3g\xb2\x07\x1e\xa9Y\xef;U\x7f\xf2a\xf4\xbf'
 # key = get_random_bytes(32)
@@ -24,3 +26,12 @@ def key_para_jwt():
     key_jwt = get_random_bytes(32)
     key_jwt = str(key_jwt)
     return key_jwt
+
+def SHA256(data):
+    # La data será un string
+    data = data.encode('utf-8')
+    data = hashlib.sha256(data)
+    data = data.digest()
+    # El hasheo retorna bytes
+    return data
+

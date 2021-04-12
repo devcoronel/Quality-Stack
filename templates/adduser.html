@@ -9,12 +9,12 @@
         
         <h4 class="datos">Contraseña</h4>
         <input type="password" name="addpassword1" value="" id="addpassword1">
-        <img src="../static/mostrar.png" alt="" class="boton1" id="boton1" style="width:25px; cursor:pointer; position:absolute; left:280px; top: 219px" >
+        <img src="../static/images/mostrar.png" alt="" class="boton1" id="boton1" style="width:25px; cursor:pointer; top: 7px ;position: relative;" >
 
 
         <h4 class="datos">Repita la contraseña</h4>
         <input type="password" name="addpassword2" value="" id="addpassword2">
-        <img src="../static/mostrar.png" alt="" class="boton2" id="boton2" style="width:25px; cursor:pointer; position:absolute; left:280px; top: 282px" >
+        <img src="../static/images/mostrar.png" alt="" class="boton2" id="boton2" style="width:25px; cursor:pointer; top: 7px ;position: relative;" >
 
         <br/>
         <select name="rol" id="" class="datos">
@@ -50,10 +50,10 @@
         function mostrarContraseña1(){
             if(input1.type == "password"){
                 input1.type = "text";
-                boton1.src="../static/ocultar.png";
+                boton1.src="../static/images/ocultar.png";
             } else{
                 input1.type = "password";
-                boton1.src = "../static/mostrar.png";
+                boton1.src = "../static/images/mostrar.png";
             }
         }
 
@@ -65,10 +65,10 @@
         function mostrarContraseña2(){
             if(input2.type == "password"){
                 input2.type = "text";
-                boton2.src="../static/ocultar.png";
+                boton2.src="../static/images/ocultar.png";
             } else{
                 input2.type = "password";
-                boton2.src = "../static/mostrar.png";
+                boton2.src = "../static/images/mostrar.png";
             }
         }
     </script>
