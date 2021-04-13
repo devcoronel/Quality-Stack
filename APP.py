@@ -126,7 +126,8 @@ def login():
                 flash('Usuario y/o contraseña incorrectos')
                 return render_template('login.html')
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["GET"])
+@jwt_required()
 def logout():
     response = redirect('/login')
     unset_jwt_cookies(response)
@@ -246,16 +247,29 @@ def showflows(n):
     # print(flujos_por_tablas)
     return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas, flowtables=data_switches), 200
 
-@app.route('/home/addflow/<string:n>', methods = ['GET'])
+@app.route(r'/addflow', methods=['GET'])
+@app.route(r'/addflow/<string:n>', methods=['GET'])
 @jwt_required()
-def addflow(n):
+def addflow(n=None):
     comprobar_role = get_jwt()['roleuser']
-    if comprobar_role == 'admin' or comprobar_role == 'operator':
-        return render_template('addflow.html', numero = n)
-    
+    if comprobar_role == "admin" or comprobar_role == 'operator':
+        response = requests.get(url_switches_variable)
+
+        if response.status_code == 200:
+            var_a = response.content
+            data = json.loads(var_a)
+
+            if not n:
+                return render_template('addflows.html', flowtables = data)
+            else:
+                return render_template('addflow.html', numero = n, flowtables = data)
+        else:
+            return render_template('500.html')
+        
     else:
         return render_template('AccessDenied.html')
 
+# FALTA HACER: UNA VEZ TERMINADO SE DEBE AGREGAR A LA RUTA DE ARRIBA CON UN IF PARA POST
 @app.route('/home/addflow/<string:n>', methods = ['POST'])
 @jwt_required()
 def add(n):
@@ -265,6 +279,9 @@ def add(n):
 
         return redirect(url_for('home'))
 
+# AUN NO PUEDO UNIR ADDUSER GET CON ADDUSER POST PORQUE NECESITO
+# PONER EL JWT_REQUIRED() Y ESO AÚN NO PUEDO HACERLO PORQUE EN EL
+# POST NO SÉ PONER LA CABECERA X-CSRF-TOKEN
 @app.route('/adduser', methods=['GET'])
 @jwt_required()
 def adduser():
@@ -275,7 +292,7 @@ def adduser():
         return render_template('AccessDenied.html')
 
 @app.route('/adduser', methods=['POST'])
-#@jwt_required() #ARREGLAR
+#@jwt_required() #ARREGLAR: PONER CABECERA X-CSRF-TOKEN
 def adduser_post():
     if request.method == 'POST':
         username = request.form["addusername"]

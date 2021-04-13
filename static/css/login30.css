@@ -6,7 +6,7 @@
 }
 
 .contenido {
-    background: rgb(23, 32,42);
+    background: #181a1b;
     position: absolute;
     width: 350px;
     height: 450px;
@@ -15,9 +15,9 @@
     border-radius: 10% 10% 10% 10%;
 }
 .imagen2{
-    padding-top: 30px;
+    padding-top: 11px;
     width: 350px;
-    margin-bottom: 30px;
+    padding-bottom: 15px;
 }
 
 .usuario {

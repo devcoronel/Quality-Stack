@@ -1,21 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Agregación de FLujo en Switch {{numero}}</h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables39.css') }}">
+
+    <h1>AGREGAR REGLAS DE FLUJO: Switch {{numero}}</h1>
+    <br/>
+    <ul class="luswitch">
+        {% for i in flowtables %}
+            <li class="switch" ><a href="/addflow/{{i}}" class="aswitch">Switch {{i}}</a></li>
+        {% endfor %}
+    </ul>
+    <br/>
+    <!-- <h2>Agregación de FLujo en Switch {{numero}}</h2> -->
     <form action="/home/addflow/{{numero}}" method='POST'>
-        <h5>Número de Tabla</h5>
+        <h3>Número de Tabla</h3>
         <input type="text" name="id_tabla" placeholder="Número">
-        <h5>Priority</h5>
+        <h3>Priority</h3>
         <input type="text" name="priority" placeholder="0-65535", value="1">
-        <h5>Cookie</h5>
+        <h3>Cookie</h3>
         <input type="text" name="cookie" placeholder="Limitar cookies", value="0">
-        <h5>IDLE Timeout</h5>
+        <h3>IDLE Timeout</h3>
         <input type="text" name="idle_timeout" placeholder="", value="0">
-        <h5>HARD Timeout</h5>
+        <h3>HARD Timeout</h3>
         <input type="text" name="hard_timeout" placeholder="", value="0">
-        <h5>Duración (segundos)</h5>
+        <h3>Duración (segundos)</h3>
         <input type="text" name="duracion" placeholder="0 para infinito", value="0">
-        <h6></h6>
-        <h6>Asegúrese que todos los datos son correctos</h6>
+        <br/>
+        <h4>Asegúrese que todos los datos son correctos</h4>
         <button type="submit">Submit</button>
     </form>
 

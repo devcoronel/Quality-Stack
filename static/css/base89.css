@@ -14,21 +14,22 @@ body {
 
 .sidebar{
     position: fixed;
-    left: -220px;
-    width: 220px;
+    left: -180px;
+    width: 180px;
     height: 100%;
-    background: rgb(23, 32,42);
+    background: #181a1b;
     transition: all .4s ease;
     padding-top: 3.6rem;
 
 }
 
 .sidebar header {
-    font-size: 13px;
+    font-size: 11px;
     color: #6e747a;
-    line-height: 60px;
-    text-align: center;
-    background: rgb(23, 32,42);
+    line-height: 50px;
+    padding-top: 5px;
+    padding-left: 20px;
+    background: #181a1b;
     user-select: none;
 }
 
@@ -39,7 +40,7 @@ body {
     line-height: 50px;
     font-size: 18px;
     color: white;
-    padding-left: 40px;
+    padding-left: 20px;
     box-sizing: border-box;
     border-top: 1px solid rgba(255, 255, 255, .1);
     border-bottom: 1px solid black;
@@ -47,12 +48,12 @@ body {
 }
 
 ul .menu:hover a{
-    padding-left: 50px;
+    padding-left: 30px;
     color: tomato;
 }
 
 .sidebar ul a i{
-    margin-right: 16px;
+    margin-right: 10px;
 }
 
 #check{
@@ -63,7 +64,7 @@ label #btn,label #cancel{
     position: absolute;
     cursor: pointer;
     background: #55acea;
-    border-radius: 3px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -84,7 +85,7 @@ label #btn:hover{
 label #cancel{
     z-index: 1111;
     left: -195px;
-    top: 75px;
+    top: 73px;
     font-size: 20px;
     color: white;
     padding: 4px 9px;
@@ -108,7 +109,7 @@ label #cancel:hover{
 }
 
 #check:checked ~ label #cancel{
-    left: 170px;
+    left: 125px;
 }
 
 #check:checked ~ section{
@@ -136,7 +137,7 @@ label #cancel:hover{
 }
 
 .header {
-    background: rgb(23, 32,42);
+    background: #181a1b;
     color: white;
     padding: .7rem 0;
     left: 0;
@@ -185,4 +186,49 @@ label #cancel:hover{
     right: 4px;
     top: 4px;
     width: 65px;
+}
+
+/* Estilo de darkmode */
+.switch{
+    background: #343D5B;
+    border-radius: 1000px;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    outline: none;
+}
+
+
+.switch::after {
+    content: "";
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background: #F1F1F1;
+    top: 0;
+    left: 0;
+    right: unset;
+    border-radius: 100px;
+    transition: .3s ease all;
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .2);
+}
+.span{
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    display: block;
+    background: none;
+    color: #fff;
+}
+
+.switch:active {
+    background: orange;
+    color: black;
+}
+
+.switch:active::after {
+    left: unset;
+    right: 0;
 }

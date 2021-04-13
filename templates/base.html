@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>App</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/base23.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename = 'css/base89.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
         <link rel="shortcut icon" href="#">
         
@@ -15,22 +15,23 @@
         <input type="checkbox" id="check" />
         <label for="check">
             <i class="fas fa-bars" id="btn" ></i>
-            <i class="fas fa-times" id="cancel" ></i>
+            <i class="fas fa-chevron-circle-left" id="cancel" ></i>
         </label>
         <div class="sidebar" id="lateral" >
             <header>
                 <h1>Menú</h1>
-                <img src="{{ url_for('static', filename = 'images/logo.png') }}" width="220px" alt="Logo TopQoS">
+                <!-- <img src="{{ url_for('static', filename = 'images/logo.png') }}" width="220px" alt="Logo TopQoS"> -->
             </header>
             <ul>
-                <li class="menu"> <a href="/home"> <i class="fas fa-qrcode" ></i>Inicio</a> </li>
-                <li class="menu"> <a href="/flowtables"> <i class="fas fa-link" ></i>Flujos</a> </li>
+                <li class="menu"> <a href="/home"> <i class="fas fa-home" ></i>Inicio</a> </li>
+                <li class="menu"> <a href="/flowtables"> <i class="fas fa-link" ></i>Flows</a> </li>
+                <li class="menu"> <a href="/addflow"> <i class="fas fa-plus-circle" ></i>Add Flows</a> </li>
                 <li class="menu"> <a href="#"> <i class="fas fa-stream" ></i>QoS</a> </li>
                 <li class="menu"> <a href="#"> <i class="fas fa-calendar-week" ></i>Eventos</a> </li>
                 <li class="menu"> <a href="#"> <i class="fas fa-question-circle" ></i>Guía</a> </li>
                 <li class="menu"> <a href="#"> <i class="fas fa-sliders-h" ></i>Services</a> </li>
-                <li class="menu"> <a href="/adduser"> <i class="fas fa-envelope" ></i>Add user</a> </li>
-                <li class="menu"> <a href=""><form action="/logout" method="POST" > <button class="cerrar">Cerrar Sesión</button> </form> </li></a>
+                <li class="menu"> <a href="/adduser"> <i class="fas fa-user-plus" ></i>Add user</a> </li>
+                <li class="menu"> <a href="/logout"> <i class="fas fa-sign-out-alt"></i>Log out</a></li>
 
             </ul>
         </div>
@@ -49,18 +50,28 @@
 
                     <div class="container logo-nav-container" >
                         <nav class="navigation" >
-                            <img src="{{ url_for('static', filename = 'images/logo_oficial.png') }}" class="oficialogo" alt="TopQoS" title="TopQoS" >
+                            <img src="{{ url_for('static', filename = 'images/logo.png') }}" class="oficialogo" alt="TopQoS" title="TopQoS" >
                             <ul>
                                 <li><a href="#">Inicio</a></li>
                                 <li><a href="#">Acerca</a></li>
                                 <li><a href="#">Servicios</a></li>
                                 <!-- <li> <form action="/logout" method="POST" > <button>Cerrar Sesión</button> </form> </li> -->
+                                <li>
+                                    <button class="switch" id="switch">
+                                        <span class="span"><i class="fas fa-sun"></i></span>
+                                        <span class="span"><i class="fas fa-moon"></i></span>
+                                    </button>
+                                </li>
+                                
                             </ul>
+                            
                         </nav>
                     </div>
                 </header>
             </div>
         </section>
+    <script src=" {{ url_for('static', filename='js/darkmode.js') }} "></script>
+        
     </body>
 </html>
 
