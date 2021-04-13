@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables39.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables40.css') }}">
 
     <h1>TABLA DE FLUJOS: Switch {{numero}}</h1>
+    <hr/>
     <br/>
         <ul class="luswitch">
             {% for i in flowtables %}
-                <li class="switch" ><a href="/flowtables/{{i}}" class="aswitch">Switch {{i}}</a></li>
+                <li class="switches" ><a href="/flowtables/{{i}}" class="aswitch">Switch {{i}}</a></li>
             {% endfor %}
         </ul>
         <br/>
         {% for tabla in tablas_activas %}
             <h2>Tabla {{tabla}}</h2>
-            <table border="8" style="text-align: center; color: #55acea;" >
+            <table border="5" style="text-align: center; color: #343D5B;" >
                 <thead style="color: #192229; font-weight: bold;" >
                     <tr>
                         <td>Prioridad</td>

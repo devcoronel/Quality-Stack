@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables39.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables40.css') }}">
 
     <h1>AGREGAR REGLAS DE FLUJO: Switch {{numero}}</h1>
+    <hr/>
     <br/>
     <ul class="luswitch">
         {% for i in flowtables %}
-            <li class="switch" ><a href="/addflow/{{i}}" class="aswitch">Switch {{i}}</a></li>
+            <li class="switches" ><a href="/addflow/{{i}}" class="aswitch">Switch {{i}}</a></li>
         {% endfor %}
     </ul>
     <br/>

@@ -2,7 +2,7 @@
     text-align: center;
 }
 
-.switch{
+.switches{
     text-decoration: none;
     display: inline;
     padding: 10px 10px;
@@ -18,7 +18,7 @@
     font-weight: bold;
 }
 
-.switch:hover{
+.switches:hover{
     background: #e47911;
 }
     .aswitch:hover{

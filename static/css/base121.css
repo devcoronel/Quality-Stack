@@ -49,7 +49,7 @@ body {
 
 ul .menu:hover a{
     padding-left: 30px;
-    color: tomato;
+    color: #e47911;
 }
 
 .sidebar ul a i{
@@ -63,14 +63,14 @@ ul .menu:hover a{
 label #btn,label #cancel{
     position: absolute;
     cursor: pointer;
-    background: #55acea;
+    background: #e47911;
     border-radius: 5px;
     cursor: pointer;
 }
 
 label #btn{
     left: 10px;
-    top: 72px;
+    top: 67px;
     font-size: 20px;
     color: white;
     padding: 6px 12px;
@@ -79,7 +79,7 @@ label #btn{
 }
 
 label #btn:hover{
-    background: tomato;
+    background: #343D5B;
 }
 
 label #cancel{
@@ -94,7 +94,7 @@ label #cancel{
 }
 
 label #cancel:hover{
-    background: tomato;
+    background: #343D5B;
 }
 
 
@@ -113,7 +113,7 @@ label #cancel:hover{
 }
 
 #check:checked ~ section{
-    margin-left: 165px;
+    margin-left: 130px;
 }
 
 .cuerpo{
@@ -122,7 +122,7 @@ label #cancel:hover{
     background-size: cover;
     height: 100vh;
     transition: all .4s ease;
-    padding-top: 4.6rem;
+    padding-top: 4.4rem;
 }
 
 .contenedor{
@@ -131,27 +131,27 @@ label #cancel:hover{
 }
 
 .arriba {
-    background: black;
+    background: #111314;
     width: 100%;
     margin: 0;
 }
 
 .header {
-    background: #181a1b;
+    background: #111314;
     color: white;
     padding: .7rem 0;
     left: 0;
     top: 0;
     right: 0;
     position: fixed;
-    box-shadow: 1px 1px 4px #55acea;
+    box-shadow: 1px 1px 4px #e47911;
 }
 
     .header a{
-        color:#55acea;
+        color:#F1F1F1;
         text-decoration: none;
         font-weight: bolder;
-        font-size: 18px;
+        font-size: 15px;
     }
 
 .logo-nav-container{
@@ -171,12 +171,13 @@ label #cancel:hover{
     }
         .navigation ul li a{
             display: block;
-            padding: 0.5rem 2rem;
+            margin: 0rem 2rem;
+            padding: 0.5rem 0.7rem;
             transition: all 0.5s linear;
             border-radius: 5px;
         }
             .navigation ul li a:hover{
-                background: #55acea;
+                background: #e47911;
                 text-align: center;
                 color: white;
             }
@@ -185,7 +186,7 @@ label #cancel:hover{
     position: absolute;
     right: 4px;
     top: 4px;
-    width: 65px;
+    width: 50px;
 }
 
 /* Estilo de darkmode */
@@ -229,6 +230,7 @@ label #cancel:hover{
 }
 
 .switch:active::after {
+    content: "";
     left: unset;
     right: 0;
 }
