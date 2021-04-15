@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in range(n) %}
+            {% for i in range(n_sw) %}
                 {% set i_str = i|string %}
                 <tr>
                     <td>
@@ -37,14 +37,54 @@
     <h2 style="color:#192229" >Estadísitcas de puertos</h2>
     <select name="rol" id="" class="datos" onchange="javascript:handleSelect(this)">
         <option value="#">Elija un Switch</option>
-        {% for i in range(n) %}
+        {% for i in range(n_sw) %}
             <option value="/{{i+1}}">Switch {{i+1}}</option>
         {% endfor %}
         
     </select>
-        <script type="text/javascript">
-            function handleSelect(elm){
-                window.location = "/index"+elm.value;
-            }
-        </script>
+    <script type="text/javascript">
+        function handleSelect(elm){
+            window.location = "/index"+elm.value;
+        }
+    </script>
+    
+    {% if n %}
+        <table border="5" style="text-align: center;">
+            <thead>
+                <tr>
+                    <td>Puerto</td>
+                    <td>RX Packets</td>
+                    <td>TX Packets</td>
+                    <td>RX Bytes</td>
+                    <td>TX Bytes</td>
+                    <td>RX Dropped</td>
+                    <td>TX Dropped</td>
+                    <td>RX Errors</td>
+                    <td>TX Errors</td>
+                    <td>Collisions</td>
+                    <td>Duration (sec)</td>
+                </tr>
+            </thead>
+                
+                {% for i in est_port %}
+                    <tr>
+                        <td> {{i["port_no"]}} </td>
+                        <td> {{i["rx_packets"]}} </td>
+                        <td> {{i["tx_packets"]}} </td>
+                        <td> {{i["rx_bytes"]}} </td>
+                        <td> {{i["tx_bytes"]}} </td>
+                        <td> {{i["rx_dropped"]}} </td>
+                        <td> {{i["tx_dropped"]}} </td>
+                        <td> {{i["rx_errors"]}} </td>
+                        <td> {{i["tx_errors"]}} </td>
+                        <td> {{i["collisions"]}} </td>
+                        <td> {{i["duration_sec"]}} </td>
+                    </tr>
+                    
+                {% endfor %}
+            <tbody>
+
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

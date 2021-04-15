@@ -33,3 +33,5 @@ def estadisticas_puertos(n):
         data = json.loads(data)
         data = data[n] # Estadísticas de todos los puertos
         return data
+
+print(estadisticas_puertos(1))

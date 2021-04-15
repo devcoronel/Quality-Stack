@@ -139,7 +139,13 @@ def logout():
 @jwt_required()
 def index(n=None):
     carac_all_sw = detalles_switch()
-    return render_template('prueba.html', carac_all_sw = carac_all_sw, n = n_switch)
+
+    if n:
+        est_port = estadisticas_puertos(n)
+        return render_template('prueba.html', carac_all_sw = carac_all_sw, n_sw = n_switch, n = n, est_port = est_port)
+        
+    else:
+        return render_template('prueba.html', carac_all_sw = carac_all_sw, n_sw = n_switch)
 
 @app.route('/home', methods=['GET'])
 @jwt_required()
