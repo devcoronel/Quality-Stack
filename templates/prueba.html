@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1 style="color: rgb(23, 32,42)" >INICIO</h1>
+    <hr/>
+    <br/>
+    <h2 style="color:#192229" >Detalles Generales</h2>
+    <table border="5" style="text-align: center;" >
+        <thead>
+            <tr>
+                <td> <h3>Switches </h3></td>
+                <td> <h3>Tipo </h3></td>
+                <td> <h3>Versión </h3></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(n) %}
+                {% set i_str = i|string %}
+                <tr>
+                    <td>
+                        {{ (carac_all_sw[i])["dp_desc"] }}
+                    </td>
+                    <td>
+                        {{ (carac_all_sw[i])["hw_desc"] }}
+                    </td>
+                    <td>
+                        {{ (carac_all_sw[i])["sw_desc"] }}
+                    </td>
+                    
+                </tr>
+            {% endfor %}
+            
+            
+        </tbody>
+    </table>
+    <br/>
+
+    <h2 style="color:#192229" >Estadísitcas de puertos</h2>
+    <select name="rol" id="" class="datos" onchange="javascript:handleSelect(this)">
+        <option value="#">Elija un Switch</option>
+        {% for i in range(n) %}
+            <option value="/{{i+1}}">Switch {{i+1}}</option>
+        {% endfor %}
+        
+    </select>
+        <script type="text/javascript">
+            function handleSelect(elm){
+                window.location = "/index"+elm.value;
+            }
+        </script>
+{% endblock %}

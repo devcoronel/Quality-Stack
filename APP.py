@@ -18,6 +18,7 @@ import requests, json
 from variables import *
 from cripto import *
 from validaciones import *
+from home import *
 
 app = Flask(__name__)
 
@@ -133,6 +134,12 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
+@app.route(r'/index', methods=['GET'])
+@app.route(r'/index/<string:n>', methods=['GET'])
+@jwt_required()
+def index(n=None):
+    carac_all_sw = detalles_switch()
+    return render_template('prueba.html', carac_all_sw = carac_all_sw, n = n_switch)
 
 @app.route('/home', methods=['GET'])
 @jwt_required()
@@ -181,7 +188,6 @@ def home():
     
     # Número de switches
     n_switch = len(orden_switch)
-    
     return render_template('index.html', numero = n_switch, orden = orden_switch , nombre = nombre_switch, tipo = tipo_switch, version = version_switch) , 200
 
 # Resumen de las tablas de flujo que se pueden mostrar

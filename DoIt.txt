@@ -3,3 +3,5 @@ hacer un menú sin la imagen del logo: LISTO
 Hacer una ventana propia para agregar flujo: LISTO
 Gráfica de switches conectados
 Header HTTP X-CSRF-TOKEN
+Poner SSL
+Poner modo desarrollador

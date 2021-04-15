@@ -9,6 +9,7 @@ url_switches_variable = "http://localhost:8080/stats/switches"
 url_caracteristicas_variable = "http://localhost:8080/stats/desc/" #Se necesita añadir Número del switch
 url_flujos_variable = "http://localhost:8080/stats/flowdesc/" #Se necesita añadir Número del switch
 url_tablas_flujo_variable = "http://localhost:8080/stats/table/" #Se necesita añadir Número del switch
+url_estadisticas_puertos_variable = "http://localhost:8080/stats/port/" #Se necesita añadir Número del switch
 
 # Puerto de operación
 port = 3000

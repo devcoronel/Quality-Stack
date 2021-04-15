@@ -4,7 +4,7 @@
     <h1 style="color: rgb(23, 32,42)" >INICIO</h1>
     <hr/>
     <br/>
-    <h2 style="color:#192229" >Detalles: Switches conectados</h2>
+    <h2 style="color:#192229" >Detalles Generales</h2>
 
     <table border="5" style="text-align: center;" >
         <thead>
@@ -12,7 +12,6 @@
                 <td> <h3>Switches </h3></td>
                 <td> <h3>Tipo </h3></td>
                 <td> <h3>Versión </h3></td>
-                <!-- <td> <h3>FLujos </h3></td> -->
             </tr>
         </thead>
         <tbody>
@@ -28,5 +27,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <br/>
+    <h2 style="color:#192229" >Estadísitcas de puertos</h2>
+    <select name="rol" id="" class="datos" onchange="location = this.value;">
+        <option value="#">Elija un Switch</option>
+        {% for i in range(numero) %}
+            <option value="home/{{i+1}}">Switch {{i+1}}</option>
+        {% endfor %}
+        
+    </select>
 
 {% endblock %}
