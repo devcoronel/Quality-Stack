@@ -18,7 +18,7 @@ import requests, json
 from variables import *
 from cripto import *
 from validaciones import *
-from home import *
+from API_request import *
 
 app = Flask(__name__)
 
@@ -48,7 +48,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=1)
 # Activar JWT con todos los parámetros configurados
 jwt = JWTManager(app)
 
-# Key para permitir insertar texto en index.html
+# Key para permitir insertar texto
 app.secret_key = 'mysecretkey'
 
 @app.errorhandler(404)
@@ -134,155 +134,44 @@ def logout():
     unset_jwt_cookies(response)
     return response
 
-@app.route(r'/index', methods=['GET'])
-@app.route(r'/index/<string:n>', methods=['GET'])
+@app.route(r'/home', methods=['GET'])
+@app.route(r'/home/<string:n>', methods=['GET'])
 @jwt_required()
-def index(n=None):
+def home(n=None):
     carac_all_sw = detalles_switch()
 
     if n:
         est_port = estadisticas_puertos(n)
-        return render_template('prueba.html', carac_all_sw = carac_all_sw, n_sw = n_switch, n = n, est_port = est_port)
+        return render_template('home.html', carac_all_sw = carac_all_sw, n_sw = n_switch, switches = switches, n = n, est_port = est_port)
         
     else:
-        return render_template('prueba.html', carac_all_sw = carac_all_sw, n_sw = n_switch)
+        return render_template('home.html', carac_all_sw = carac_all_sw, n_sw = n_switch, switches = switches)
 
-@app.route('/home', methods=['GET'])
+@app.route(r'/flowtables', methods=['GET'])
+@app.route(r'/flowtables/<string:n>', methods=['GET'])
 @jwt_required()
-def home():
-    #Orden de los switches
-    orden_switch = []
-    # Nombres de los switches
-    nombre_switch = []
-    # Tipo de switch
-    tipo_switch = []
-    # Versión del switches
-    version_switch = []
+def showflows(n=None):
+    if n:
+        flow_table = (flowtables(n))[0]
+        active_tables = (flowtables(n))[1]
 
-    response = requests.get(url_switches_variable)
+        return render_template('flowtables.html', n = n, switches = switches, flow_table = flow_table, active_tables = active_tables)
 
-    if response.status_code == 200:
-        var_a = response.content
-        data = json.loads(var_a)
-        
-        #Averiguar si en la tabla ya existe registro de los switches
-        for i in data:
-            # Crear el orden del análisis de los switches
-            orden_switch.append(i)
-
-            #Obtener las características del switch de turno
-            str_i = str(i)
-            url_caracteristicas = url_caracteristicas_variable +str_i
-            caracteristicas = requests.get(url_caracteristicas)
-
-            #Formar nombre del switch y almacenarlo
-            var_b = "sw_"+str_i
-            nombre_switch.append(var_b)
-            
-            if caracteristicas.status_code == 200:
-                #Obtener el tipo y version de switch y almacenarlo
-                var_c = caracteristicas.content
-                var_d = json.loads(var_c)
-                var_e = var_d[str_i]
-                var_f = var_e["hw_desc"]
-                tipo_switch.append(var_f)
-                var_g = var_e["sw_desc"]
-                version_switch.append(var_g)
-            
-            else:
-                print("Ocurrió un error con la API ofctl.rest.py")
-    
-    # Número de switches
-    n_switch = len(orden_switch)
-    return render_template('index.html', numero = n_switch, orden = orden_switch , nombre = nombre_switch, tipo = tipo_switch, version = version_switch) , 200
-
-# Resumen de las tablas de flujo que se pueden mostrar
-@app.route('/flowtables', methods=['GET'])
-@jwt_required()
-def flowtables():
-    response = requests.get(url_switches_variable)
-
-    if response.status_code == 200:
-        var_a = response.content
-        data = json.loads(var_a)
-        return render_template('flowtables.html', flowtables = data)
-    
     else:
-        return render_template('500.html')
+        return render_template('flowtables.html', switches = switches)
 
-# Mostrar las tablas de flujos de cada switch
-@app.route('/flowtables/<string:n>', methods=['GET'])
+@app.route('/addflow', methods=['GET'])
 @jwt_required()
-def showflows(n):
-
-    response = requests.get(url_switches_variable)
-
-    if response.status_code == 200:
-        var_a = response.content
-        data_switches = json.loads(var_a)
-
-    # Primero obtener las tablas de flujo del switch
-    url_tablas_flujo = url_tablas_flujo_variable + n
-    tablas_flujo = requests.get(url_tablas_flujo)
-
-    #Obtener los flujos del switch de turno
-    url_flujos = url_flujos_variable + n
-    flujos = requests.get(url_flujos)
-
-    flujos_por_tablas = []
-
-    if tablas_flujo.status_code == 200 and flujos.status_code == 200:
-        # Obtener las tablas en json
-        contenido = tablas_flujo.content
-        data = json.loads(contenido)
-        tablas = data[n]
-        n_tablas = len(tablas)
-
-        #Obtener los flujos en json
-        var_a = flujos.content
-        var_b = json.loads(var_a)
-        var_c = var_b[n]
-        var_d = len(var_c)
-        
-        tablas_activas = []
-        for i in range(n_tablas):
-            if (tablas[i])["active_count"] != 0:
-                str_i = str(i)
-                tablas_activas.append(str_i)
-                for j in var_c:
-                    if j["table_id"] == i:
-                        formato = {
-                            str_i: j
-                        }
-
-                        flujos_por_tablas.append(formato)
-    # print(flujos_por_tablas)
-    return render_template('showflows.html', numero = n, total = flujos_por_tablas, nflujos = var_d, tablas_activas = tablas_activas, flowtables=data_switches), 200
-
-@app.route(r'/addflow', methods=['GET'])
-@app.route(r'/addflow/<string:n>', methods=['GET'])
-@jwt_required()
-def addflow(n=None):
+def addflow():
     comprobar_role = get_jwt()['roleuser']
     if comprobar_role == "admin" or comprobar_role == 'operator':
-        response = requests.get(url_switches_variable)
+        return render_template('addflow.html', switches = switches)
 
-        if response.status_code == 200:
-            var_a = response.content
-            data = json.loads(var_a)
-
-            if not n:
-                return render_template('addflows.html', flowtables = data)
-            else:
-                return render_template('addflow.html', numero = n, flowtables = data)
-        else:
-            return render_template('500.html')
-        
     else:
         return render_template('AccessDenied.html')
 
 # FALTA HACER: UNA VEZ TERMINADO SE DEBE AGREGAR A LA RUTA DE ARRIBA CON UN IF PARA POST
-@app.route('/home/addflow/<string:n>', methods = ['POST'])
+@app.route('/addflow/<string:n>', methods = ['POST'])
 @jwt_required()
 def add(n):
     if request.method == 'POST':

@@ -2,7 +2,7 @@
 {% block content %}
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables40.css') }}">
 
-    <h1>AGREGAR REGLAS DE FLUJO: Switch {{numero}}</h1>
+    <h1 style="color: rgb(23, 32,42)">AGREGAR REGLAS DE FLUJO</h1>
     <hr/>
     <br/>
     <ul class="luswitch">
@@ -13,6 +13,14 @@
     <br/>
     <!-- <h2>Agregación de FLujo en Switch {{numero}}</h2> -->
     <form action="/home/addflow/{{numero}}" method='POST'>
+        <h3>Switch</h3>
+        <select name="switch">
+            <option value="#">Elija un Switch</option>
+            {% for i in switches %}
+                <option value="/{{i}}">Switch {{i}}</option>
+            {% endfor %}
+            
+        </select>
         <h3>Número de Tabla</h3>
         <input type="text" name="id_tabla" placeholder="Número">
         <h3>Priority</h3>

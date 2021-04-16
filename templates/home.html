@@ -7,9 +7,9 @@
     <table border="5" style="text-align: center;" >
         <thead>
             <tr>
-                <td> <h3>Switches </h3></td>
-                <td> <h3>Tipo </h3></td>
-                <td> <h3>Versión </h3></td>
+                <td>Switches</td>
+                <td>Tipo</td>
+                <td>Versión</td>
             </tr>
         </thead>
         <tbody>
@@ -24,30 +24,33 @@
                     </td>
                     <td>
                         {{ (carac_all_sw[i])["sw_desc"] }}
-                    </td>
-                    
+                    </td> 
                 </tr>
-            {% endfor %}
-            
-            
+            {% endfor %}    
         </tbody>
     </table>
     <br/>
 
-    <h2 style="color:#192229" >Estadísitcas de puertos</h2>
+    <h2 style="color:#192229" >Estadísitcas de puertos
+        {% if n %}
+            : Switch {{n}}
+        {% endif %}
+    </h2>
+    <br/>
+
     <select name="rol" id="" class="datos" onchange="javascript:handleSelect(this)">
         <option value="#">Elija un Switch</option>
-        {% for i in range(n_sw) %}
-            <option value="/{{i+1}}">Switch {{i+1}}</option>
+        {% for i in switches %}
+            <option value="/{{i}}">Switch {{i}}</option>
         {% endfor %}
         
     </select>
+
     <script type="text/javascript">
         function handleSelect(elm){
-            window.location = "/index"+elm.value;
+            window.location = "/home"+elm.value;
         }
     </script>
-    
     {% if n %}
         <table border="5" style="text-align: center;">
             <thead>

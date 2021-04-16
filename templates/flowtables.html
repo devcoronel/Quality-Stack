@@ -2,12 +2,63 @@
 {% block content %}
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/flowtables40.css') }}">
 
-    <h1>TABLAS DE FLUJO</h1>
+    <h1 style="color: rgb(23, 32,42)">TABLAS DE FLUJO 
+        {% if n %}
+            : Switch {{n}}
+        {% endif %}
+    </h1>
     <hr/>
     <br/>
-    <ul class="luswitch">
-        {% for i in flowtables %}
-            <li class="switches" ><a href="/flowtables/{{i}}" class="aswitch">Switch {{i}}</a></li>
+    <select name="rol" id="" class="datos" onchange="javascript:handleSelect(this)">
+        <option value="#">Elija un Switch</option>
+        {% for i in switches %}
+            <option value="/{{i}}">Switch {{i}}</option>
         {% endfor %}
-    </ul>
+        
+    </select>
+
+    <script type="text/javascript">
+        function handleSelect(elm){
+            window.location = "/flowtables"+elm.value;
+        }
+    </script>
+
+    {% if n %}
+        {% for tabla in active_tables %}
+            <h2>Tabla {{tabla}}</h2>
+            <table border="5" style="text-align: center; color: #343D5B;" >
+                <thead style="color: #192229; font-weight: bold;" >
+                    <tr>
+                        <td>Prioridad</td>
+                        <td>Coincidencias</td>
+                        <td>Cookie</td>
+                        <td>Duración</td>
+                        <td>IDLE Timeout</td>
+                        <td>HARD Timeout</td>
+                        <td>Acciones</td>
+                        <td>Conteo Paquetes</td>
+                        <td>Flags</td>
+                    </tr>
+                </thead>
+                <tbody style="color: rgb(23, 32,42);" >
+                    {% for i in flow_table %}
+                        
+                        <tr>
+                            <td>{{ (i[tabla])['priority'] }}</td>
+                            <td>{{ (i[tabla])['match'] }}</td>
+                            <td>{{ (i[tabla])['cookie'] }}</td>
+                            <td>{{ (i[tabla])['duration_sec'] }}</td>
+                            <td>{{ (i[tabla])['idle_timeout'] }}</td>
+                            <td>{{ (i[tabla])['hard_timeout'] }}</td>
+                            <td>{{ (i[tabla])['actions'] }}</td>
+                            <td>{{ (i[tabla])['packet_count'] }}</td>
+                            <td>{{ (i[tabla])['flags'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% endif %}
+
+
 {% endblock %}

@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App | Error 500</title>
-    <link rel="shortcut icon" href="#">
+    <title>Quality Stack | Error 500</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo_blanco.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'css/404_29.css') }}">
 
 </head>
 <body>
-    Hubo un error de nuestra parte, lo solucionaremos en breve
+    <img src="{{ url_for('static', filename= 'images/500.png') }}" alt="" class="logo">
+    <img src="{{ url_for('static', filename= 'images/404.png') }}" alt="" class="notfound">
+    <img src="{{ url_for('static', filename= 'images/enchufe.png') }}" alt="" class="enchufe">
+    <h1>¡Lo sentimos!</h1>
+    <h2>Hubo un fallo de nuestra parte</h2>
+    <h3><a href="/home" > Volver al Inicio </a></h3>
+    
 </body>
 </html>
